@@ -1,4 +1,6 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Timer = () => {
@@ -86,18 +88,42 @@ const Timer = () => {
         return `${formattedHours}${formattedMinutes}:${formattedSeconds}`;
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (!selectedOption) {
             alert('Please select a study option');
             return;
         }
         
+        const data = {
+            duration: time,
+            type: selectedOption,
+            comments: comment
+        }
         // Handle submission logic
-        console.log({
-            time: formatTime(time),
-            selectedOption,
-            comment
-        });
+        console.log(data);
+
+        const token = localStorage.getItem('token');
+        if(!token){
+            console.log("You are not logged in");
+            return false;
+        }
+        try{
+            const response = await axios.post("http://localhost:3000/addSession", data, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            if(response.status === 200){
+                toast.success("Submitted Successfully");
+            }else{
+                toast.error("Failed to submit");
+            }
+
+        }catch(error){
+            toast.error("There was an error");
+            console.log("This is the error", error);
+        }
+        
         
         // Reset after submission
         chrome.runtime.sendMessage({ action: 'RESET_TIMER' }, () => {
