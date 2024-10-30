@@ -1,0 +1,27 @@
+{
+    "manifest_version": 3,
+    "name": "GoStudy",
+    "version": "1.0",
+    "description": "GoStudy",
+    "permissions": [
+        "activeTab",
+        "scripting",
+        "windows",
+        "storage",
+        "alarms"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_popup": "index.html"
+    },
+    "commands": {
+        "open-popup": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+Y"
+            },
+            "description": "Open the popup"
+        }
+    }
+}
