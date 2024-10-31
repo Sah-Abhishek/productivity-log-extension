@@ -8,6 +8,7 @@ const Timer = () => {
     const [isRunning, setIsRunning] = useState(false);
     const [selectedOption, setSelectedOption] = useState('');
     const [comment, setComment] = useState('');
+    const baseURL = import.meta.env.VITE_BACK_URL;
 
     // Connect to background script
     useEffect(() => {
@@ -108,7 +109,7 @@ const Timer = () => {
             return false;
         }
         try{
-            const response = await axios.post("http://localhost:3000/addSession", data, {
+            const response = await axios.post(`${baseURL}/addSession`, data, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

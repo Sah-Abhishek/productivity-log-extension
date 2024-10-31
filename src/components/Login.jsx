@@ -8,12 +8,13 @@ const LoginForm = () => {
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState('');
+  const baseURL = import.meta.env.VITE_BACK_URL;
 
   const onSubmit = async (data) => {
     console.log("This is data", data);
     console.log(data);
     try{
-      const response = await axios.post("http://localhost:3000/login", data);
+      const response = await axios.post(`${baseURL}/login`, data);
       console.log("This is response", response, response.data);
       if(response.status === 200){
         const { token } = response.data;
